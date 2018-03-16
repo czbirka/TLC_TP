@@ -10,11 +10,11 @@
 	<%@ include file="Menu.jsp"%>
 	<h1>Ajouter une annonce</h1>
 	<form action = "/Ajouter_step2" method = "POST">
-         Titre: <input type = "text" name = "first_name">
+         Titre: <input type = "text" name = "titre">
          <br />
-         Prix: <input type = "text" name = "last_name" />
+         Prix: <input type = "text" name = "prix" />
          <br />
-         Date <input type = "text" name = "last_name" />
+         Date <input type = "text" name = "date" />
          <input type = "submit" value = "Submit" />
       </form>
 </body>
