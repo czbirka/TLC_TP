@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
 /**
  * Servlet implementation class Ajouter_step2
  */
@@ -33,13 +37,26 @@ public class Ajouter_step2 extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String titre = request.getParameter("titre");
-        request.setAttribute("titre", titre);
-        String prix = request.getParameter("prix");
-        request.setAttribute("prix", prix);
-        String date = request.getParameter("date");
-        request.setAttribute("date", date);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/Ajouter_step2.jsp").forward(request, response);
+
+        
+        Annonce annonce;
+
+        UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser(); // Find out who the user is.
+
+//        String guestbookName = req.getParameter("guestbookName");
+//        String titre = request.getParameter("titre");
+//        String prix = request.getParameter("prix");
+//        String date = request.getParameter("date");
+//        if (user != null) {
+//        	annonce = new Annonce(guestbookName, content, user.getUserId(), user.getEmail());
+//        } else {
+//        	annonce = new Annonce(guestbookName, content);
+//        }
+
+        //annonce.save();
+
+ //       response.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
 	}
 
 }
