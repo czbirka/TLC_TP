@@ -19,6 +19,12 @@ package istic.ila;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.KeyFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 //[START all]
@@ -29,8 +35,21 @@ public class Persistence {
   @SuppressWarnings("JavadocMethod")
   public static Datastore getDatastore() {
     if (datastore.get() == null) {
-      datastore.set(
-          DatastoreOptions.newBuilder().setProjectId("tlc-projet").build().getService());
+    	
+    	// on definit le projet-id cible depuis un fichier de properties
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream(new File("values.properties")));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String projetId = properties.getProperty("projet.id");
+		datastore.set(
+          DatastoreOptions.newBuilder().setProjectId(projetId).build().getService());
     }
 
     return datastore.get();
