@@ -6,6 +6,6 @@
 
     <li><a href="/ajouter">Ajouter une annonce</a></li>
 
-    <li>Rechercher</li>
+    <li><a href="/rechercher">Rechercher</a></li>
 
 </ul>
