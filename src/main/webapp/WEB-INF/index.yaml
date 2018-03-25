@@ -1,0 +1,10 @@
+indexes:
+
+- kind: Annonce
+  ancestor: yes
+  properties:
+  - name: date
+    direction: desc
+  - name: prix
+    direction: asc
+
