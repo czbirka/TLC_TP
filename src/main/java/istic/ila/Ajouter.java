@@ -1,6 +1,7 @@
 package istic.ila;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,14 +37,21 @@ public class Ajouter extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String titre = request.getParameter("titre");
-//        request.setAttribute("titre", titre);
-//        String prix = request.getParameter("prix");
+
+	    String offre = request.getParameter("offre");
+	    String prix = request.getParameter("prix");
+	    String date = request.getParameter("date");
+	    
+	    Annonce annonce = new Annonce(offre, Long.parseLong(prix));
+	    annonce.save();
+
+	    response.sendRedirect("/WEB-INF/ajouter_2.jsp");
+		
+		
+//        request.setAttribute("offre", offre);
 //        request.setAttribute("prix", prix);
-//        String date = request.getParameter("date");
 //        request.setAttribute("date", date);
-//
-        this.getServletContext().getRequestDispatcher("/WEB-INF/ajouter_2").forward(request, response);
+//        this.getServletContext().getRequestDispatcher("/WEB-INF/ajouter_2").forward(request, response);
 	}
 
 }

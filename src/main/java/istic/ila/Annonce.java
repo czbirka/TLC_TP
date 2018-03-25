@@ -8,38 +8,39 @@ import java.util.Objects;
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.FullEntity;
+import com.google.cloud.datastore.FullEntity.Builder;
 import com.google.cloud.datastore.IncompleteKey;
 import com.google.cloud.datastore.Key;
-import com.google.cloud.datastore.FullEntity.Builder;
 import com.google.common.base.MoreObjects;
 
 public class Annonce {
 
-	private Book book;
+	private Catalogue book;
 
 	public Key key;
-	public String authorEmail;
-	public String authorId;
-	public String titre;
-	public int prix;
+	public String offre;
+	public long prix;
 	public Date date;
 
 	public Annonce() {
 		date = new Date();
 	}
 
-	public Annonce(String titre, String authorEmail, String authorId) {
+	public Annonce(String offre) {
 		this();
-		this.titre = titre;
-		this.authorEmail = authorEmail;
-		this.authorId = authorId;
+		this.offre = offre;
+	}
+	
+	public Annonce(String offre, long prix) {
+		this();
+		this.offre = offre;
+		this.prix = prix;
 	}
 
 	public Annonce(Entity entity) {
 		key = entity.hasKey() ? entity.getKey() : null;
-		titre = entity.contains("titre") ? entity.getString("titre") : null;
-		authorEmail = entity.contains("authorEmail") ? entity.getString("authorEmail") : null;
-		authorId = entity.contains("authorId") ? entity.getString("authorId") : null;
+		offre = entity.contains("offre") ? entity.getString("offre") : null;
+		prix = entity.contains("prix") ? entity.getLong("prix") : null;
 	}
 
 	public void save() {
@@ -48,16 +49,8 @@ public class Annonce {
 	    }
 
 	    Builder<Key> builder = FullEntity.newBuilder(key);
-
-	    if (authorEmail != null) {
-	      builder.set("authorEmail", authorEmail);
-	    }
-
-	    if (authorId != null) {
-	      builder.set("authorId", authorId);
-	    }
-
-	    builder.set("titre", titre);
+	    builder.set("offre", offre);
+	    builder.set("prix", prix);
 	    builder.set("date", Timestamp.of(date));
 
 	    getDatastore().put(builder.build());
@@ -65,7 +58,7 @@ public class Annonce {
 
 	  private IncompleteKey makeIncompleteKey() {
 	    // The book is our ancestor key.
-	    return Key.newBuilder(book.getKey(), "Greeting").build();
+	    return Key.newBuilder(book.getKey(), "Annonce").build();
 	  }
 
 	  @Override
@@ -78,24 +71,21 @@ public class Annonce {
 	    }
 	    Annonce annonce = (Annonce) o;
 	    return Objects.equals(key, annonce.key)
-	        && Objects.equals(authorEmail, annonce.authorEmail)
-	        && Objects.equals(authorId, annonce.authorId)
-	        && Objects.equals(titre, annonce.titre)
+	        && Objects.equals(offre, annonce.offre)
+	        && Objects.equals(prix, annonce.prix)
 	        && Objects.equals(date, annonce.date);
 	  }
 
 	  @Override
 	  public int hashCode() {
-	    return Objects.hash(key, authorEmail, authorId, titre, date);
+	    return Objects.hash(key, offre, prix, date);
 	  }
 
 	  @Override
 	  public String toString() {
 	    return MoreObjects.toStringHelper(this)
 	        .add("key", key)
-	        .add("authorEmail", authorEmail)
-	        .add("authorId", authorId)
-	        .add("content", titre)
+	        .add("content", offre)
 	        .add("date", date)
 	        .add("book", book)
 	        .toString();

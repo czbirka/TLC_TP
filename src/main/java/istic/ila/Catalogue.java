@@ -1,6 +1,7 @@
 package istic.ila;
 
 import static com.google.cloud.datastore.StructuredQuery.OrderBy.desc;
+import static com.google.cloud.datastore.StructuredQuery.OrderBy.asc;
 import static com.google.cloud.datastore.StructuredQuery.PropertyFilter.hasAncestor;
 import static istic.ila.Persistence.getDatastore;
 import static istic.ila.Persistence.getKeyFactory;
@@ -18,13 +19,13 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
-public class Book {
-	private static final KeyFactory keyFactory = getKeyFactory(Book.class);
+public class Catalogue {
+	private static final KeyFactory keyFactory = getKeyFactory(Catalogue.class);
 	  private final Key key;
 
 	  public final String book;
 
-	  public Book(String book) {
+	  public Catalogue(String book) {
 	    this.book = book == null ? "default" : book;
 	    key =
 	        keyFactory.newKey(
@@ -42,6 +43,7 @@ public class Book {
 	            .setKind("Annonce")
 	            .setFilter(hasAncestor(key))
 	            .setOrderBy(desc("date"))
+	            .setOrderBy(asc("prix"))
 	            .setLimit(5)
 	            .build();
 
@@ -63,8 +65,8 @@ public class Book {
 	    if (o == null || getClass() != o.getClass()) {
 	      return false;
 	    }
-	    Book book = (Book) o;
-	    return Objects.equals(book, book.book) && Objects.equals(key, book.key);
+	    Catalogue catalogue = (Catalogue) o;
+	    return Objects.equals(book, catalogue.book) && Objects.equals(key, catalogue.key);
 	  }
 
 	  @Override
@@ -76,7 +78,7 @@ public class Book {
 	  public String toString() {
 	    return MoreObjects.toStringHelper(this)
 	        .add("keyFactory", keyFactory)
-	        .add("book", book)
+	        .add("catalogue", book)
 	        .add("key", key)
 	        .toString();
 	  }
