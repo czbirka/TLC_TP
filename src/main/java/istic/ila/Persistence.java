@@ -37,7 +37,7 @@ public class Persistence {
     if (datastore.get() == null) {
     	
     	// on definit le projet-id cible depuis un fichier de properties
-		Properties properties = new Properties();
+		/*Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(new File("values.properties")));
 		} catch (FileNotFoundException e) {
@@ -50,6 +50,10 @@ public class Persistence {
 		String projetId = properties.getProperty("projet.id");
 		datastore.set(
           DatastoreOptions.newBuilder().setProjectId(projetId).build().getService());
+    */
+    	datastore.set(
+    	          DatastoreOptions.newBuilder().setProjectId("tlc-projet").build().getService());
+
     }
 
     return datastore.get();
