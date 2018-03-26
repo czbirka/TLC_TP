@@ -3,6 +3,8 @@
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.google.appengine.api.users.UserService" %>
 <%@ page import="com.google.appengine.api.users.UserServiceFactory" %>
+<%@ page import="istic.ila.Catalogue" %>
+<%@ page import="istic.ila.Annonce" %>
 
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -32,12 +34,9 @@
 		if (user != null) {
 			pageContext.setAttribute("user", user);
 	%>
-	
 
 	<p>
-
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
-			
 			
 			href="<%=userService.createLogoutURL(request.getRequestURI().replace("WEB-INF/", ""))%>">sign
 			out</a>.)
@@ -52,6 +51,30 @@
 	</p>
 	<%
 		}
+	%>
+	
+	
+	<%-- //[START datastore]--%>
+	<%
+	    // Create the correct Ancestor key
+	      Catalogue theBook = new Catalogue("Promo magazine");
+	
+	    // Run an ancestor query to ensure we see the most up-to-date
+	    // view of the Greetings belonging to the selected Guestbook.
+	      List<Annonce> annonces = theBook.getAnnonces();
+	
+	      // Look at all of our annonces
+	        for (Annonce annonce : annonces) {
+	            pageContext.setAttribute("annonce_offre", annonce.offre);
+	            pageContext.setAttribute("annonce_prix", annonce.prix);
+	            pageContext.setAttribute("annonce_date", annonce.date);
+
+	%>
+		<p>
+			<b>${fn:escapeXml(annonce_offre)}  ${fn:escapeXml(annonce_prix)}  ${fn:escapeXml(annonce_date)}</b>
+		</p>
+	<%
+	        }
 	%>
 </body>
 </html>
